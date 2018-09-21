@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2003
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DesktopGraphIgniteDemo", "DesktopGraphIgniteDemo\DesktopGraphIgniteDemo.csproj", "{7C554BE7-F55F-4D7E-91FE-4F28B201FCBA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|ARM = Debug|ARM
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|ARM = Release|ARM
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7C554BE7-F55F-4D7E-91FE-4F28B201FCBA}.Debug|ARM.ActiveCfg = Debug|ARM
+		{7C554BE7-F55F-4D7E-91FE-4F28B201FCBA}.Debug|ARM.Build.0 = Debug|ARM
+		{7C554BE7-F55F-4D7E-91FE-4F28B201FCBA}.Debug|ARM.Deploy.0 = Debug|ARM
+		{7C554BE7-F55F-4D7E-91FE-4F28B201FCBA}.Debug|x64.ActiveCfg = Debug|x64
+		{7C554BE7-F55F-4D7E-91FE-4F28B201FCBA}.Debug|x64.Build.0 = Debug|x64
+		{7C554BE7-F55F-4D7E-91FE-4F28B201FCBA}.Debug|x64.Deploy.0 = Debug|x64
+		{7C554BE7-F55F-4D7E-91FE-4F28B201FCBA}.Debug|x86.ActiveCfg = Debug|x86
+		{7C554BE7-F55F-4D7E-91FE-4F28B201FCBA}.Debug|x86.Build.0 = Debug|x86
+		{7C554BE7-F55F-4D7E-91FE-4F28B201FCBA}.Debug|x86.Deploy.0 = Debug|x86
+		{7C554BE7-F55F-4D7E-91FE-4F28B201FCBA}.Release|ARM.ActiveCfg = Release|ARM
+		{7C554BE7-F55F-4D7E-91FE-4F28B201FCBA}.Release|ARM.Build.0 = Release|ARM
+		{7C554BE7-F55F-4D7E-91FE-4F28B201FCBA}.Release|ARM.Deploy.0 = Release|ARM
+		{7C554BE7-F55F-4D7E-91FE-4F28B201FCBA}.Release|x64.ActiveCfg = Release|x64
+		{7C554BE7-F55F-4D7E-91FE-4F28B201FCBA}.Release|x64.Build.0 = Release|x64
+		{7C554BE7-F55F-4D7E-91FE-4F28B201FCBA}.Release|x64.Deploy.0 = Release|x64
+		{7C554BE7-F55F-4D7E-91FE-4F28B201FCBA}.Release|x86.ActiveCfg = Release|x86
+		{7C554BE7-F55F-4D7E-91FE-4F28B201FCBA}.Release|x86.Build.0 = Release|x86
+		{7C554BE7-F55F-4D7E-91FE-4F28B201FCBA}.Release|x86.Deploy.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {50F33227-1235-42F7-B172-D9A0E0DCE45D}
+	EndGlobalSection
+EndGlobal
