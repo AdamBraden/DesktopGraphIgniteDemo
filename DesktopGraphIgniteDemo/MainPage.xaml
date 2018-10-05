@@ -18,10 +18,11 @@
             <ColumnDefinition Width="30*"/>
             <ColumnDefinition Width="70*"/>
         </Grid.ColumnDefinitions>
-            <Custom:AadLogin Grid.Row ="0" Grid.Column="0" x:Name="AadLogin1" Content="AadLogin" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" View="LargeProfilePhotoLeft" />
+            <Custom:AadLogin Grid.Row ="0" Grid.Column="0" x:Name="AadLogin1" Content="AadLogin" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" View="SmallProfilePhotoLeft" />
         <StackPanel Grid.Row="1" Grid.Column="0">
             <TextBlock Grid.Row ="1" Grid.Column="0" HorizontalAlignment="Stretch" Margin="10,0,10,10" Text="To:" TextWrapping="Wrap" VerticalAlignment="Top" FontWeight="Bold" FontSize="20"/>
-            <Custom:PeoplePicker Grid.Row ="1" Grid.Column="0" x:Name="PeoplePicker1" Margin="10,0,10,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  />
+            <Custom:PeoplePicker Grid.Row ="1" Grid.Column="0" x:Name="PeoplePicker1" Margin="10,0,10,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="380" />
+            <TextBlock x:Name="statusBar" Grid.Row ="1" Grid.Column="0" HorizontalAlignment="Stretch" Margin="10,0,10,10" Text="Status:" VerticalAlignment="Bottom" FontWeight="Bold" FontSize="20"/>
         </StackPanel>
         <StackPanel Grid.Row="1" Grid.Column="1">
             <TextBlock Text="Message:" HorizontalAlignment="Left" Margin="10,0,10,10" TextWrapping="Wrap" FontWeight="Bold" FontSize="20"/>

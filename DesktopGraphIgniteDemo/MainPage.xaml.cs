@@ -1,95 +1,106 @@
-﻿using Microsoft.Graph;
-using Microsoft.Toolkit.Services.MicrosoftGraph;
-using Microsoft.Toolkit.Uwp.UI.Controls.Graph;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
+﻿using System;
 using System.Threading.Tasks;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+using System.Linq;
+using Windows.ApplicationModel.UserActivities;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
+using Microsoft.Graph;
+using Microsoft.Toolkit.Services.MicrosoftGraph;
 
 namespace DesktopGraphIgniteDemo
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// Demo showing MSGraph, Windows Community Toolkit, and Windows Timeline
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        // Privates for Graph authentication
         private string ClientId = "c9525f43-9dae-469d-b8fb-70f8e6fad6b0";
-        private string[] permissions = new string[] { "User.Read", "Mail.Send" };
+        private string[] Permissions = new string[] { "User.Read", "User.ReadBasic.All", "People.Read", "Mail.Send"};
+
+        // Private for UserActivities/Windows Timeline
+        private UserActivitySession _currentSession;
+
         public MainPage()
         {
             this.InitializeComponent();
             MicrosoftGraphService.Instance.AuthenticationModel = MicrosoftGraphEnums.AuthenticationModel.V2;
             MicrosoftGraphService.Instance.Initialize(
                 ClientId,
-                MicrosoftGraphEnums.ServicesToInitialize.UserProfile,
-                permissions.Union(PeoplePicker.RequiredDelegatedPermissions).ToArray()
+                MicrosoftGraphEnums.ServicesToInitialize.UserProfile | MicrosoftGraphEnums.ServicesToInitialize.Message,
+                Permissions
             );
-            AadLogin1.View = ViewType.SmallProfilePhotoLeft;
-            
         }
 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
-            var emailSubject = "Graph Email";
+            //SendEmail via Windows Community Toolkit's MSGraphService
+            await MicrosoftGraphService.Instance.User.Message.SendEmailAsync(
+                "Graph email via Windows Community Toolkit",
+                emailBody.Text,
+                BodyType.Html,
+                PeoplePicker1.Selections.Select(x => x.UserPrincipalName).ToArray()
+                );
 
-            var emailRecipients = new List<Microsoft.Graph.Recipient>();
-            foreach (Microsoft.Graph.Person u in PeoplePicker1.Selections)
-            {
-                var recip = new Microsoft.Graph.Recipient
-                {
-                    EmailAddress = new EmailAddress() { Address = u.UserPrincipalName }
-                };
-                emailRecipients.Add(recip);
-            }
-            await SendMessageAsync(emailSubject, emailBody.Text, emailRecipients);
+            //Update status and show in WindowsTimeline
+            statusBar.Text += " Success!";
+            await CreateUserActivityAsync();
         }
 
-        // Sends message to a specified address.
-        public static async Task<bool> SendMessageAsync(string Subject, string Body, List<Recipient> Recipients)
+
+        async Task CreateUserActivityAsync()
         {
-            bool emailSent = false;
+            // Get channel and create activity.
+            UserActivityChannel channel = UserActivityChannel.GetDefault();
+            UserActivity activity = await channel.GetOrCreateUserActivityAsync("SentEmail");
 
-            //Create message
-            var email = new Message
-            {
-                Body = new ItemBody
-                {
-                    Content = Body,
-                    ContentType = BodyType.Html,
-                },
-                Subject = Subject,
-                ToRecipients = Recipients,
-            };
+            // Set deep-link and properties.
+            activity.VisualElements.DisplayText = "Graph Demo - Email Sent!";
+            activity.ActivationUri = new Uri("ignitedemo://page?MainPage");
 
-            try
-            {
-                var graphClient = MicrosoftGraphService.Instance.GraphProvider;
-                await graphClient.Me.SendMail(email, true).Request().PostAsync();
-                Debug.WriteLine("Message sent");
-                emailSent = true;
-            }
-            catch (ServiceException e)
-            {
-                Debug.WriteLine("We could not send the message. The request returned this status code: " + e.Error.Message);
-                emailSent = false;
-            }
+            // Save to activity feed.
+            await activity.SaveAsync();
 
-            return emailSent;
+            // Create a session, which indicates that the user is engaged in the activity.
+            _currentSession?.Dispose();
+            _currentSession = activity.CreateSession();
         }
 
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            // Dispose the session, which indicates that the user is no longer
+            // engaged in the activity.
+            _currentSession?.Dispose();
+        }
+
+        //// Sends message to a specified address.
+        //public static async Task<bool> SendMessageAsync(string Subject, string Body, List<Recipient> Recipients)
+        //{
+        //    bool emailSent = false;
+
+        //    //Create message
+        //    var email = new Message
+        //    {
+        //        Body = new ItemBody {Content = Body, ContentType = BodyType.Html},
+        //        Subject = Subject,
+        //        ToRecipients = Recipients,
+        //    };
+
+        //    try
+        //    {
+        //        var graphClient = MicrosoftGraphService.Instance.GraphProvider;
+
+        //        // Call the graph!
+        //        await graphClient.Me.SendMail(email, true).Request().PostAsync();
+        //        emailSent = true;
+        //    }
+        //    catch (ServiceException e)
+        //    {
+        //        Debug.WriteLine("We could not send the message. The request returned this status code: " + e.Error.Message);
+        //        emailSent = false;
+        //    }
+        //    return emailSent;
+        //}
     }
 }
